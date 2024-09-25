@@ -1,0 +1,3 @@
+# this is to ensure that the yarn.lock has the latest dependency. outdated dependencies has caused heorku build to fail several times. 
+yarn install
+yarn build
