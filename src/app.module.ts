@@ -20,6 +20,7 @@ import { TokenMiddleware } from './utils/middlewares/token.middleware';
     UserModule,
     RecipeModule,
     AuthModule,
+    RecipeModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -41,10 +42,16 @@ export class AppModule implements NestModule {
   public configure(consumer: MiddlewareConsumer): unknown {
     return consumer
       .apply(TokenMiddleware)
-      .exclude({
-        path: 'login',
-        method: RequestMethod.POST,
-      })
+      .exclude(
+        {
+          path: 'login',
+          method: RequestMethod.POST,
+        },
+        {
+          path: 'signup',
+          method: RequestMethod.POST,
+        },
+      )
       .forRoutes({
         path: '*',
         method: RequestMethod.ALL,
