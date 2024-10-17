@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Recipe, RecipeSchema } from './models/recipe.model';
+import { RecipeService } from './services/recipe.service';
+import { SpoonacularService } from './services/spoonacular/spoonacular.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -12,8 +15,9 @@ import { Recipe, RecipeSchema } from './models/recipe.model';
         },
       },
     ]),
+    HttpModule,
   ],
-  providers: [],
+  providers: [RecipeService, SpoonacularService],
   exports: [],
   controllers: [],
 })

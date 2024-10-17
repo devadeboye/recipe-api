@@ -1,7 +1,7 @@
-import { FetchRecipesResponse, RecipeInformation } from './recipe.interface';
+import { RecipeInformation } from './recipe.interface';
 
 export interface IRecipeService {
-  fetchRecipes(): Promise<FetchRecipesResponse>;
+  fetchRecipesFromSource(query: string): Promise<void>;
 
   getRecipeInformation(): Promise<RecipeInformation>;
 }
