@@ -1,6 +1,6 @@
 import { Controller, Get, Logger, Query } from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { OutboundRateLimiter } from 'src/utils/services/rate-limiter.service';
 import { ConfigService } from '@nestjs/config';
 import { EnvConfiguration } from 'src/config/enums/env.configuration';
@@ -59,7 +59,7 @@ export class RecipeController {
   }
 
   @Cron('0 8 * * 1') // runs at 8 AM every Monday (weekly)
-  // @Cron(CronExpression.EVERY_5_MINUTES) // test
+  @Cron(CronExpression.EVERY_5_MINUTES) // test
   public async fetchRecipeDetailsFromSource(): Promise<void> {
     const recipesWithNoDetails =
       await this.recipeService.fetchRecipeWithNoInfo();

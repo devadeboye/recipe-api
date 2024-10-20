@@ -96,7 +96,7 @@ export class RecipeService implements IRecipeService {
     }
 
     const foundItems = await this.recipeModel
-      .find(filter)
+      .find({ detailsFetched: true, ...filter })
       .skip((page - 1) * limit)
       .sort({
         createdAt: -1,
