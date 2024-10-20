@@ -865,7 +865,7 @@
 
 "@nestjs/axios@^3.0.3":
   version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-3.0.3.tgz#a663cb13cff07ea6b9a7107263de2ae472d41118"
+  resolved "https://registry.npmjs.org/@nestjs/axios/-/axios-3.0.3.tgz"
   integrity sha512-h6TCn3yJwD6OKqqqfmtRS5Zo4E46Ip2n+gK1sqwzNBC+qxQ9xpCu+ODVRFur6V3alHSCSBxb3nNtt73VEdluyA==
 
 "@nestjs/cli@^10.0.0":
@@ -941,7 +941,7 @@
 
 "@nestjs/schedule@^4.1.1":
   version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-4.1.1.tgz#a730cff250ad5db78fe6a1bfc7f12a30856e48df"
+  resolved "https://registry.npmjs.org/@nestjs/schedule/-/schedule-4.1.1.tgz"
   integrity sha512-VxAnCiU4HP0wWw8IdWAVfsGC/FGjyToNjjUtXDEQL6oj+w/N5QDd2VT9k6d7Jbr8PlZuBZNdWtDKSkH5bZ+RXQ==
   dependencies:
     cron "3.1.7"
@@ -1206,7 +1206,7 @@
 
 "@types/luxon@~3.4.0":
   version "3.4.2"
-  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.4.2.tgz#e4fc7214a420173cea47739c33cdf10874694db7"
+  resolved "https://registry.npmjs.org/@types/luxon/-/luxon-3.4.2.tgz"
   integrity sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==
 
 "@types/methods@^1.1.4":
@@ -1744,7 +1744,7 @@ asynckit@^0.4.0:
 
 axios@^1.7.7:
   version "1.7.7"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.7.7.tgz"
   integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
   dependencies:
     follow-redirects "^1.15.6"
@@ -2317,7 +2317,7 @@ create-require@^1.1.0:
 
 cron@3.1.7:
   version "3.1.7"
-  resolved "https://registry.yarnpkg.com/cron/-/cron-3.1.7.tgz#3423d618ba625e78458fff8cb67001672d49ba0d"
+  resolved "https://registry.npmjs.org/cron/-/cron-3.1.7.tgz"
   integrity sha512-tlBg7ARsAMQLzgwqVxy8AZl/qlTc5nibqYwtNGoCrd+cV+ugI+tvZC1oT/8dFH8W455YrywGykx/KMmAqOr7Jw==
   dependencies:
     "@types/luxon" "~3.4.0"
@@ -2922,7 +2922,7 @@ flatted@^3.2.9:
 
 follow-redirects@^1.15.6:
   version "1.15.9"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.9.tgz#a604fa10e443bf98ca94228d9eebcc2e8a2c8ee1"
+  resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz"
   integrity sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==
 
 foreground-child@^3.1.0:
@@ -4181,7 +4181,7 @@ lru-cache@^5.1.1:
 
 luxon@~3.4.0:
   version "3.4.4"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.4.4.tgz#cf20dc27dc532ba41a169c43fdcc0063601577af"
+  resolved "https://registry.npmjs.org/luxon/-/luxon-3.4.4.tgz"
   integrity sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==
 
 magic-string@0.30.8:
@@ -4783,7 +4783,7 @@ proxy-addr@~2.0.7:
 
 proxy-from-env@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  resolved "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 punycode@^2.1.0, punycode@^2.3.0:
@@ -5580,7 +5580,7 @@ utils-merge@1.0.1:
 
 uuid@10.0.0:
   version "10.0.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-10.0.0.tgz"
   integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 v8-compile-cache-lib@^3.0.1:
