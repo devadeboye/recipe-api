@@ -11,4 +11,6 @@ export const envValidationSchema = Joi.object({
   [EnvConfiguration.PORT]: Joi.number(),
   [EnvConfiguration.JWT_LIFESPAN]: Joi.string().trim().required(),
   [EnvConfiguration.TOKEN_SECRET]: Joi.string().trim().required(),
+  [EnvConfiguration.SPOONACULAR_BASE_URL]: Joi.string().trim().required(),
+  [EnvConfiguration.SPOONACULAR_RATE_LIMIT]: Joi.string().trim().required(),
 });
