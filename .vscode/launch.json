@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Attach by Process ID",
+        "processId": "${command:PickProcess}",
+        "request": "attach",
+        "skipFiles": ["<node_internals>/**"],
+        "type": "node"
+      },
+      {
+        "name": "Attach",
+        "port": 9229,
+        "request": "attach",
+        "skipFiles": ["<node_internals>/**"],
+        "type": "node",
+        "restart": true,
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug Nest Framework",
+        "args": ["${workspaceFolder}/src/main.ts"],
+        "runtimeArgs": [
+          "--nolazy",
+          "-r",
+          "ts-node/register",
+          "-r",
+          "tsconfig-paths/register"
+        ],
+        "sourceMaps": true,
+        "envFile": "${workspaceFolder}/.env",
+        "cwd": "${workspaceRoot}",
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Docker: Attach to Node",
+        "type": "node",
+        "request": "attach",
+        "restart": true,
+        "remoteRoot": "/app",
+        "localRoot": "${workspaceFolder}"
+      }
+    ]
+  }
+  
