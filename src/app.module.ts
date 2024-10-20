@@ -15,6 +15,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { envValidationSchema } from './config/validators/env.validation';
 import { TokenMiddleware } from './utils/middlewares/token.middleware';
 import { ScheduleModule } from '@nestjs/schedule';
+import { FavouriteModule } from './favourite/favourite.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthModule,
     RecipeModule,
     ScheduleModule.forRoot(),
+    FavouriteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -52,6 +54,10 @@ export class AppModule implements NestModule {
         {
           path: 'signup',
           method: RequestMethod.POST,
+        },
+        {
+          path: 'recipe',
+          method: RequestMethod.GET,
         },
       )
       .forRoutes({

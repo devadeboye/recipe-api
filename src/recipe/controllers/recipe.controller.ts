@@ -1,9 +1,14 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, Query } from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
 import { Cron } from '@nestjs/schedule';
 import { OutboundRateLimiter } from 'src/utils/services/rate-limiter.service';
 import { ConfigService } from '@nestjs/config';
 import { EnvConfiguration } from 'src/config/enums/env.configuration';
+import { RecipeDocument } from '../models/recipe.model';
+import { SearchResult } from 'src/utils/dtos/search.dto';
+import { RecipeSearchDto } from '../dtos/recipe.dto';
+import { JoiObjectValidationPipe } from 'src/utils/pipes/validation.pipe';
+import { recipeSearchValidator } from '../validators/recipe.validator';
 
 @Controller('recipe')
 export class RecipeController {
@@ -70,5 +75,13 @@ export class RecipeController {
         },
       );
     }
+  }
+
+  @Get()
+  public search(
+    @Query(new JoiObjectValidationPipe(recipeSearchValidator))
+    payload: RecipeSearchDto,
+  ): Promise<SearchResult<RecipeDocument[]>> {
+    return this.recipeService.search(payload);
   }
 }

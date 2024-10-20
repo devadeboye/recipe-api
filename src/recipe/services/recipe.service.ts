@@ -1,9 +1,11 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IRecipeService } from '../interfaces/recipe-service.interface';
 import { SpoonacularService } from './spoonacular/spoonacular.service';
-import { Recipe } from '../models/recipe.model';
+import { Recipe, RecipeDocument } from '../models/recipe.model';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
+import { RecipeSearchDto } from '../dtos/recipe.dto';
+import { SearchResult } from 'src/utils/dtos/search.dto';
 
 @Injectable()
 export class RecipeService implements IRecipeService {
@@ -60,5 +62,59 @@ export class RecipeService implements IRecipeService {
       $or: [{ detailsFetched: false }, { detailsFetched: null }],
     });
     return recipes;
+  }
+
+  public async search(
+    searchData: RecipeSearchDto,
+  ): Promise<SearchResult<RecipeDocument[]>> {
+    const { page, limit } = searchData;
+    const filter: FilterQuery<Recipe> = {};
+
+    if (searchData.cheap) {
+      filter.cheap = searchData.cheap;
+    }
+    if (searchData.dairyFree) {
+      filter.dairyFree = searchData.dairyFree;
+    }
+    if (searchData.glutenFree) {
+      filter.glutenFree = searchData.glutenFree;
+    }
+    if (searchData.ketogenic) {
+      filter.ketogenic = searchData.ketogenic;
+    }
+    if (searchData.vegan) {
+      filter.vegan = searchData.vegan;
+    }
+    if (searchData.vegetarian) {
+      filter.vegetarian = searchData.vegetarian;
+    }
+    if (searchData.veryHealthy) {
+      filter.veryHealthy = searchData.veryHealthy;
+    }
+    if (searchData.veryPopular) {
+      filter.veryPopular = searchData.veryPopular;
+    }
+
+    const foundItems = await this.recipeModel
+      .find(filter)
+      .skip((page - 1) * limit)
+      .sort({
+        createdAt: -1,
+      })
+      .limit(limit);
+
+    const total = await this.recipeModel.countDocuments(filter);
+
+    const totalPages = Math.ceil(total / limit);
+    const nextPage =
+      total > limit ? (page < totalPages ? page + 1 : null) : null;
+
+    return {
+      limit,
+      nextPage,
+      totalPages,
+      currentPage: `page ${page} of ${totalPages}`,
+      foundItems,
+    };
   }
 }

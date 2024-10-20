@@ -3,7 +3,7 @@ import {
   PipeTransform,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ObjectSchema, ArraySchema, StringSchema } from 'joi';
+import { ObjectSchema, ArraySchema, StringSchema, NumberSchema } from 'joi';
 
 @Injectable()
 export class JoiObjectValidationPipe implements PipeTransform {
@@ -40,6 +40,22 @@ export class JoiStringValidationPipe implements PipeTransform {
   public constructor(private readonly schema: StringSchema) {}
 
   public async transform(data: unknown): Promise<string> {
+    try {
+      const value = await this.schema.validateAsync(data, {
+        stripUnknown: true,
+      });
+      return value;
+    } catch (e) {
+      throw new UnauthorizedException(e.message);
+    }
+  }
+}
+
+@Injectable()
+export class JoiNumberValidationPipe implements PipeTransform {
+  public constructor(private readonly schema: NumberSchema) {}
+
+  public async transform(data: unknown): Promise<number> {
     try {
       const value = await this.schema.validateAsync(data, {
         stripUnknown: true,

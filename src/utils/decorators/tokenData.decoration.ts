@@ -1,4 +1,8 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  SetMetadata,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { TokenDto } from 'src/auth/dtos/token.dto';
 
@@ -8,3 +12,6 @@ export const TokenDataDecorator = createParamDecorator(
     return response.locals.tokenData as TokenDto;
   },
 );
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const UseToken = () => SetMetadata('token', true);
