@@ -14,13 +14,10 @@ import { EnvConfiguration } from './config/enums/env.configuration';
 import { MongooseModule } from '@nestjs/mongoose';
 import { envValidationSchema } from './config/validators/env.validation';
 import { TokenMiddleware } from './utils/middlewares/token.middleware';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    UserModule,
-    RecipeModule,
-    AuthModule,
-    RecipeModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -34,6 +31,11 @@ import { TokenMiddleware } from './utils/middlewares/token.middleware';
       validationSchema: envValidationSchema,
       envFilePath: ['.env'],
     }),
+    UserModule,
+    RecipeModule,
+    AuthModule,
+    RecipeModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,13 +2,14 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { mongooseSchemaConfig } from 'src/utils/database/schema.config';
 import { IRecipe } from '../interfaces/recipe.interface';
-import { DishTypeEnum } from '../enums/recipe.enum';
 import { Ingredient } from './ingredient.model';
 
 @Schema(mongooseSchemaConfig)
 export class Recipe implements IRecipe {
-  @Prop()
   public id: number;
+
+  @Prop({ type: Number })
+  public _id: number;
 
   @Prop()
   public title: string;
@@ -85,14 +86,17 @@ export class Recipe implements IRecipe {
   @Prop()
   public veryPopular?: boolean;
 
-  @Prop({ type: String, enum: DishTypeEnum })
-  public dishTypes?: DishTypeEnum[];
+  @Prop()
+  public dishTypes?: string[];
 
   @Prop({ type: Ingredient })
   public extendedIngredients?: Ingredient[];
 
   @Prop()
   public summary?: string;
+
+  @Prop()
+  public detailsFetched: boolean;
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);

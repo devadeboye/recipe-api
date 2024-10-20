@@ -1,7 +1,5 @@
-import { DishTypeEnum } from '../enums/recipe.enum';
-
 /** Defines the structure of spoonacular recipe search api response */
-export interface FetchRecipesResponse {
+export interface RecipeOverview {
   id: number;
   title: string;
   calories: number;
@@ -10,6 +8,13 @@ export interface FetchRecipesResponse {
   image: string;
   imageType: string;
   protein: string;
+}
+
+export interface FetchRecipeResponse {
+  results: RecipeOverview[];
+  offset: number;
+  number: number;
+  totalResults: number;
 }
 
 export interface RecipeInformation {
@@ -31,7 +36,7 @@ export interface RecipeInformation {
   vegetarian?: boolean;
   veryHealthy?: boolean;
   veryPopular?: boolean;
-  dishTypes?: DishTypeEnum[];
+  dishTypes?: string[];
   extendedIngredients?: IIngredient[];
   summary?: string;
 }
@@ -61,4 +66,4 @@ export interface IIngredient {
   unit: string;
 }
 
-export interface IRecipe extends FetchRecipesResponse, RecipeInformation {}
+export interface IRecipe extends RecipeOverview, RecipeInformation {}

@@ -4,6 +4,7 @@ import { Recipe, RecipeSchema } from './models/recipe.model';
 import { RecipeService } from './services/recipe.service';
 import { SpoonacularService } from './services/spoonacular/spoonacular.service';
 import { HttpModule } from '@nestjs/axios';
+import { RecipeController } from './controllers/recipe.controller';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { HttpModule } from '@nestjs/axios';
   ],
   providers: [RecipeService, SpoonacularService],
   exports: [],
-  controllers: [],
+  controllers: [RecipeController],
 })
 export class RecipeModule {}

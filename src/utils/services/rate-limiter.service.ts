@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 
-type AnyFunction = <T>(...args: unknown[]) => T;
+type AnyFunction = (...args: unknown[]) => unknown;
 
 export class OutboundRateLimiter {
   private _rateLimit: number;

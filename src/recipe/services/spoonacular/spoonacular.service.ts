@@ -3,7 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { EnvConfiguration } from 'src/config/enums/env.configuration';
-import { FetchRecipesResponse } from 'src/recipe/interfaces/recipe.interface';
+import {
+  FetchRecipeResponse,
+  RecipeInformation,
+} from 'src/recipe/interfaces/recipe.interface';
 
 @Injectable()
 export class SpoonacularService {
@@ -34,9 +37,17 @@ export class SpoonacularService {
     return data;
   }
 
-  public async fetchRecipes(query: string): Promise<FetchRecipesResponse[]> {
-    const url = `${this.baseUrl}/recipes/complexSearch?${query}`;
-    const recipeList = await this.get<FetchRecipesResponse[]>(url);
+  public async fetchRecipes(query: string): Promise<FetchRecipeResponse> {
+    const url = `${this.baseUrl}/recipes/complexSearch?${query}&number=20`;
+    const recipeList = await this.get<FetchRecipeResponse>(url);
     return recipeList;
+  }
+
+  public async fetchRecipeInformation(
+    recipeId: number,
+  ): Promise<RecipeInformation> {
+    const url = `${this.baseUrl}/recipes/${recipeId}/information?`;
+    const recipeInfo = await this.get<RecipeInformation>(url);
+    return recipeInfo;
   }
 }
