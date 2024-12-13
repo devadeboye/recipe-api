@@ -117,4 +117,12 @@ export class RecipeService implements IRecipeService {
       foundItems,
     };
   }
+
+  public async getById(id: number): Promise<RecipeDocument> {
+    const recipe = await this.recipeModel.findById(id);
+    if (!recipe) {
+      throw new NotFoundException(`Recipe ${id} not found`);
+    }
+    return recipe;
+  }
 }

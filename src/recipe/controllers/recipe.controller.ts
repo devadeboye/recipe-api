@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
 import { RecipeService } from '../services/recipe.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { OutboundRateLimiter } from 'src/utils/services/rate-limiter.service';
@@ -10,7 +10,7 @@ import { RecipeSearchDto } from '../dtos/recipe.dto';
 import { JoiObjectValidationPipe } from 'src/utils/pipes/validation.pipe';
 import { recipeSearchValidator } from '../validators/recipe.validator';
 
-@Controller('recipe')
+@Controller('recipes')
 export class RecipeController {
   private rateLimiter: OutboundRateLimiter;
 
@@ -83,5 +83,10 @@ export class RecipeController {
     payload: RecipeSearchDto,
   ): Promise<SearchResult<RecipeDocument[]>> {
     return this.recipeService.search(payload);
+  }
+
+  @Get('/:id')
+  public getById(@Param('id') id: number): Promise<RecipeDocument> {
+    return this.recipeService.getById(id);
   }
 }
