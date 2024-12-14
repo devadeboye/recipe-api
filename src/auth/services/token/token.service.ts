@@ -6,7 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { EnvConfiguration } from 'src/config/enums/env.configuration';
 import * as jwt from 'jsonwebtoken';
-import { TokenDto } from '../dtos/token.dto';
+import { TokenDto } from '../../dtos/token.dto';
 import { User } from 'src/user/models/user.model';
 
 @Injectable()

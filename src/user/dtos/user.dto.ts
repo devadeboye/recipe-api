@@ -15,3 +15,12 @@ export type UserSearchTopLevelFilterDto = Record<
   UserSearchTopLevelFilterKey,
   unknown
 >;
+
+export class RefreshTokenRequestDto {
+  public refreshToken: string;
+}
+
+export class RefreshTokenResponseDto {
+  public refreshToken: string;
+  public authorizationToken: string;
+}

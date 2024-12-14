@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { TokenService } from 'src/auth/services/token.service';
+import { TokenService } from 'src/auth/services/token/token.service';
 import { TokenDto } from 'src/auth/dtos/token.dto';
 import { AccountStatusEnum } from 'src/user/enums/accountStatus.enum';
 

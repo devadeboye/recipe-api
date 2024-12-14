@@ -1,15 +1,21 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
   NotFoundException,
   Post,
   Query,
 } from '@nestjs/common';
 import { JoiObjectValidationPipe } from 'src/utils/pipes/validation.pipe';
-import { UserLoginDto, UserSearchFilterDto } from '../dtos/user.dto';
+import {
+  RefreshTokenRequestDto,
+  RefreshTokenResponseDto,
+  UserLoginDto,
+  UserSearchFilterDto,
+} from '../dtos/user.dto';
 import { UserService } from '../services/user.service';
-import { TokenService } from 'src/auth/services/token.service';
+import { TokenService } from 'src/auth/services/token/token.service';
 import { TokenDataDecorator } from 'src/utils/decorators/tokenData.decoration';
 import { TokenDto } from 'src/auth/dtos/token.dto';
 import {
@@ -19,12 +25,14 @@ import {
 } from '../validators/user.validator';
 import { User, UserDocument } from '../models/user.model';
 import { SignUpPipe } from '../pipes/user.pipe';
+import { RefreshTokenService } from 'src/auth/services/refresh-token/refresh-token.service';
 
 @Controller('user')
 export class UserController {
   public constructor(
     private readonly userService: UserService,
     private readonly tokenService: TokenService,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   @Post('signup')
@@ -64,5 +72,26 @@ export class UserController {
     users: UserDocument[];
   }> {
     return await this.userService.search(searchFilter, []);
+  }
+
+  @Post('refresh-token')
+  public async refreshToken(
+    @Body() data: RefreshTokenRequestDto,
+  ): Promise<RefreshTokenResponseDto> {
+    const { refreshToken } = data;
+    const tokenRecord =
+      await this.refreshTokenService.fetchRefreshToken(refreshToken);
+    if (
+      !tokenRecord ||
+      tokenRecord.isRevoked ||
+      new Date() > tokenRecord.expiresAt
+    ) {
+      throw new ForbiddenException('Invalid or expired refresh token');
+    }
+
+    const user = await this.userService.findById(tokenRecord.userId);
+    // generate a new access token
+    const { authorizationToken } = await this.tokenService.generateTokens(user);
+    return { authorizationToken, refreshToken };
   }
 }
