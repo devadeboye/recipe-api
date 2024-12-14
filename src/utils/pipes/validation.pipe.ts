@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  PipeTransform,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { ObjectSchema, ArraySchema, StringSchema, NumberSchema } from 'joi';
 
 @Injectable()
@@ -15,7 +11,7 @@ export class JoiObjectValidationPipe implements PipeTransform {
         .validateAsync(data, { stripUnknown: true });
       return value;
     } catch (e) {
-      throw new UnauthorizedException(e.message);
+      throw new BadRequestException(e.message);
     }
   }
 }
@@ -30,7 +26,7 @@ export class JoiArrayValidationPipe implements PipeTransform {
       });
       return value;
     } catch (e) {
-      throw new UnauthorizedException(e.message);
+      throw new BadRequestException(e.message);
     }
   }
 }
@@ -46,7 +42,7 @@ export class JoiStringValidationPipe implements PipeTransform {
       });
       return value;
     } catch (e) {
-      throw new UnauthorizedException(e.message);
+      throw new BadRequestException(e.message);
     }
   }
 }
@@ -62,7 +58,7 @@ export class JoiNumberValidationPipe implements PipeTransform {
       });
       return value;
     } catch (e) {
-      throw new UnauthorizedException(e.message);
+      throw new BadRequestException(e.message);
     }
   }
 }

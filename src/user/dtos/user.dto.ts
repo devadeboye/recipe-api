@@ -1,5 +1,6 @@
 import { SearchFilterDto } from 'src/utils/dtos/search.dto';
 import { UserSearchTopLevelFilterKey } from '../enums/user.enum';
+import { User } from '../models/user.model';
 
 export class UserLoginDto {
   public username: string;
@@ -24,3 +25,8 @@ export class RefreshTokenResponseDto {
   public refreshToken: string;
   public authorizationToken: string;
 }
+
+export type LoginResponseDto = Omit<User, 'password' | 'salt'> & {
+  authorizationToken: string;
+  refreshToken: string;
+};

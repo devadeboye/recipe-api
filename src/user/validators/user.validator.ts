@@ -34,3 +34,10 @@ export const userSearchValidator = Joi.object({
   id: Joi.array().items(Joi.string()).allow(null),
   username: Joi.array().items(Joi.string()),
 });
+
+export const refreshTokenRequestValidator = Joi.object({
+  refreshToken: Joi.string().required().messages({
+    'string.base': `"refreshToken" should be a type of 'text'`,
+    'any.required': `"refreshToken" is a required field`,
+  }),
+});

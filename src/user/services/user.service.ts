@@ -1,6 +1,5 @@
 import {
   Injectable,
-  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -63,7 +62,6 @@ export class UserService {
     if (!user) {
       return undefined;
     }
-    Logger.debug('stored password: ' + user.password);
     const isValidPassword = await User.isValidPassword(
       password,
       user.password!,

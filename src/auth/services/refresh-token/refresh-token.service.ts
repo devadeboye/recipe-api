@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, UpdateQuery, UpdateWriteOpResult } from 'mongoose';
-import {
-  IRefreshToken,
-  IRefreshTokenService,
-} from 'src/auth/interfaces/refresh-token.interface';
+import { IRefreshTokenService } from 'src/auth/interfaces/refresh-token.interface';
 import { RefreshToken } from 'src/auth/models/refresh-token.model';
 import { randomBytes } from 'crypto';
 
@@ -21,7 +18,7 @@ export class RefreshTokenService implements IRefreshTokenService {
   public async saveRefreshToken(
     refreshToken: string,
     userId: string,
-  ): Promise<IRefreshToken> {
+  ): Promise<RefreshToken> {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 30); // expiration in 30 days
     const token = await this.refreshTokenModel.create({
@@ -40,7 +37,18 @@ export class RefreshTokenService implements IRefreshTokenService {
     return this.refreshTokenModel.updateOne({ _id: id }, update);
   }
 
-  public async fetchRefreshToken(token: string): Promise<IRefreshToken | null> {
+  public async fetchRefreshToken(token: string): Promise<RefreshToken | null> {
     return this.refreshTokenModel.findOne({ token });
+  }
+
+  public async setRefreshToken(userId: string): Promise<RefreshToken> {
+    const token = this.generateRefreshToken();
+    const tokenRecord = await this.saveRefreshToken(token, userId);
+    return tokenRecord;
+  }
+
+  public async revokeRefreshToken(tokenRecord: RefreshToken): Promise<void> {
+    tokenRecord.isRevoked = true;
+    await this.update(tokenRecord.id!, tokenRecord);
   }
 }

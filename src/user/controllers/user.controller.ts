@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { JoiObjectValidationPipe } from 'src/utils/pipes/validation.pipe';
 import {
+  LoginResponseDto,
   RefreshTokenRequestDto,
   RefreshTokenResponseDto,
   UserLoginDto,
@@ -20,6 +21,7 @@ import { TokenDataDecorator } from 'src/utils/decorators/tokenData.decoration';
 import { TokenDto } from 'src/auth/dtos/token.dto';
 import {
   loginValidator,
+  refreshTokenRequestValidator,
   signupValidator,
   userSearchValidator,
 } from '../validators/user.validator';
@@ -49,7 +51,7 @@ export class UserController {
   public async login(
     @Body(new JoiObjectValidationPipe(loginValidator))
     userLoginDetails: UserLoginDto,
-  ): Promise<Omit<User, 'password' | 'salt'> & { authorizationToken: string }> {
+  ): Promise<LoginResponseDto> {
     const user = (
       await this.userService.login(userLoginDetails)
     )?.toJSON() as User;
@@ -57,7 +59,14 @@ export class UserController {
       throw new NotFoundException('user not found!');
     }
     const { authorizationToken } = await this.tokenService.generateTokens(user);
-    return { ...user, authorizationToken };
+    const refreshTokenRecord = await this.refreshTokenService.setRefreshToken(
+      user.id!,
+    );
+    return {
+      ...user,
+      authorizationToken,
+      refreshToken: refreshTokenRecord.token,
+    };
   }
 
   @Get('search')
@@ -76,11 +85,13 @@ export class UserController {
 
   @Post('refresh-token')
   public async refreshToken(
-    @Body() data: RefreshTokenRequestDto,
+    @Body(new JoiObjectValidationPipe(refreshTokenRequestValidator))
+    data: RefreshTokenRequestDto,
   ): Promise<RefreshTokenResponseDto> {
     const { refreshToken } = data;
     const tokenRecord =
       await this.refreshTokenService.fetchRefreshToken(refreshToken);
+
     if (
       !tokenRecord ||
       tokenRecord.isRevoked ||
@@ -90,8 +101,11 @@ export class UserController {
     }
 
     const user = await this.userService.findById(tokenRecord.userId);
-    // generate a new access token
     const { authorizationToken } = await this.tokenService.generateTokens(user);
-    return { authorizationToken, refreshToken };
+    const newRefreshTokenRecord =
+      await this.refreshTokenService.setRefreshToken(tokenRecord.userId);
+
+    await this.refreshTokenService.revokeRefreshToken(tokenRecord);
+    return { authorizationToken, refreshToken: newRefreshTokenRecord.token };
   }
 }
