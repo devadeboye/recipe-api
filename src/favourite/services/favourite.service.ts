@@ -30,11 +30,6 @@ export class FavouriteService {
       Logger.error(err);
       throw err;
     }
-
-    // const favourite = (
-    //   await this.recipeModel.create({ user, recipe })
-    // ).populate([{ path: 'user', select: ['-password'] }, 'recipe']);
-    // return favourite;
   }
 
   public async fetchFavourites(user: string): Promise<FavouriteDocument[]> {
