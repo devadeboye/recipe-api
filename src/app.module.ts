@@ -15,6 +15,7 @@ import { TokenMiddleware } from './utils/middlewares/token.middleware';
 import { ScheduleModule } from '@nestjs/schedule';
 import { FavouriteModule } from './favourite/favourite.module';
 import config, { readSecret } from './utils/functions/config';
+import { envValidationSchema } from './config/validators/env.validation';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import config, { readSecret } from './utils/functions/config';
       isGlobal: true,
       load: [config],
       cache: false,
-      // validationSchema: envValidationSchema,
+      validationSchema: envValidationSchema,
       // envFilePath: ['.env'],
     }),
     MongooseModule.forRootAsync({

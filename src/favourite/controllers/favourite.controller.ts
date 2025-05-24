@@ -20,7 +20,7 @@ export class FavouriteController {
     recipe: string,
     @TokenDataDecorator() tokenData: TokenDto,
   ): Promise<Favourite> {
-    Logger.debug(recipe, 'recipe =====');
+    Logger.debug('Received request to add favourite');
     return this.favouriteService.addFavourite(tokenData.id, recipe);
   }
 
@@ -29,7 +29,7 @@ export class FavouriteController {
   public fetchFavourites(
     @TokenDataDecorator() tokenData: TokenDto,
   ): Promise<Favourite[]> {
-    Logger.debug(tokenData, 'token data');
+    Logger.log('Received request to fetch favourites');
     return this.favouriteService.fetchFavourites(tokenData.id);
   }
 }

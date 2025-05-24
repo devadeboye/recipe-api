@@ -82,13 +82,13 @@ export class RecipeController {
     @Query(new JoiObjectValidationPipe(recipeSearchValidator))
     payload: RecipeSearchDto,
   ): Promise<SearchResult<RecipeDocument[]>> {
-    const foo = this.configService.get(EnvConfiguration.SPOONACULAR_BASE_URL)!;
-    Logger.debug(foo, 'Spoonacular Base URL');
+    Logger.log('Received request to search recipes');
     return this.recipeService.search(payload);
   }
 
   @Get('/:id')
   public getById(@Param('id') id: number): Promise<RecipeDocument> {
+    Logger.log(`Received request to get recipe by id`);
     return this.recipeService.getById(id);
   }
 }

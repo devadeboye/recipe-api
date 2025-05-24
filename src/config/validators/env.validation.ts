@@ -8,7 +8,6 @@ export const envValidationSchema = Joi.object({
     .valid('development', 'production', 'staging')
     .required(),
   [EnvConfiguration.CONNECTION_STRING]: Joi.string().trim().required(),
-  [EnvConfiguration.PORT]: Joi.number(),
   [EnvConfiguration.JWT_LIFESPAN]: Joi.string().trim().required(),
   [EnvConfiguration.TOKEN_SECRET]: Joi.string().trim().required(),
   [EnvConfiguration.SPOONACULAR_BASE_URL]: Joi.string().trim().required(),
