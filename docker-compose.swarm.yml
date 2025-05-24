@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  app:
+    image: devadeboye/recipe-app:latest
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    deploy:
+      restart_policy:
+        condition: on-failure
+    # environment:
+    #   - PORT=/run/secrets/PORT
+    #   - JWT_SECRET_FILE=/run/secrets/JWT_SECRET
+    # depends_on:
+    #   - mongo
+    secrets:
+      - CONNECTION_STRING
+      # - MONGO_INITDB_ROOT_USERNAME
+      # - MONGO_INITDB_ROOT_PASSWORD
+      - JWT_LIFESPAN
+      - JWT_SECRET
+      - NODE_ENV
+      - TOKEN_SECRET
+      - SPOONACULAR_BASE_URL
+      - SPOONACULAR_API_KEY
+      - SPOONACULAR_RATE_LIMIT
+    networks:
+      - app-net
+
+  # mongo:
+  #   image: mongo:7
+  #   deploy:
+  #     restart_policy:
+  #       condition: on-failure
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=/run/secrets/MONGO_INITDB_ROOT_USERNAME
+  #     - MONGO_INITDB_ROOT_PASSWORD=/run/secrets/MONGO_INITDB_ROOT_PASSWORD
+  #   volumes:
+  #     - mongo-data:/data/db
+  #   secrets:
+  #     - MONGO_INITDB_ROOT_USERNAME
+  #     - MONGO_INITDB_ROOT_PASSWORD
+  #   networks:
+  #     - app-net
+
+secrets:
+  CONNECTION_STRING:
+    external: true
+  # MONGO_INITDB_ROOT_USERNAME:
+  #   file: ./secrets/MONGO_INITDB_ROOT_USERNAME.txt
+  # MONGO_INITDB_ROOT_PASSWORD:
+  #   file: ./secrets/MONGO_INITDB_ROOT_PASSWORD.txt
+  # MONGO_INITDB_ROOT_USERNAME:
+  #   external: true
+  # MONGO_INITDB_ROOT_PASSWORD:
+  #   external: true
+  JWT_LIFESPAN:
+    external: true
+  JWT_SECRET:
+    external: true
+  NODE_ENV:
+    external: true
+  TOKEN_SECRET:
+    external: true
+  SPOONACULAR_BASE_URL:
+    external: true
+  SPOONACULAR_API_KEY:
+    external: true
+  SPOONACULAR_RATE_LIMIT:
+    external: true
+
+volumes:
+  mongo-data:
+
+networks:
+  app-net:
+    driver: overlay

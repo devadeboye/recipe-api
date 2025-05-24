@@ -8,6 +8,7 @@ import { EnvConfiguration } from 'src/config/enums/env.configuration';
 import * as jwt from 'jsonwebtoken';
 import { TokenDto } from '../../dtos/token.dto';
 import { User } from 'src/user/models/user.model';
+import { VerifyErrors } from 'jsonwebtoken';
 
 @Injectable()
 export class TokenService {
@@ -15,10 +16,10 @@ export class TokenService {
 
   public tokenize({
     data,
-    expiresIn = this.config.get(EnvConfiguration.JWT_LIFESPAN),
+    expiresIn = this.config.get<number>(EnvConfiguration.JWT_LIFESPAN)!,
   }: {
     data: TokenDto;
-    expiresIn?: string;
+    expiresIn: number;
   }): Promise<string> {
     return new Promise((resolve, reject) => {
       const tokenSecret = this.config.get<string>(
@@ -38,15 +39,19 @@ export class TokenService {
       const tokenSecret = this.config.get<string>(
         EnvConfiguration.TOKEN_SECRET,
       )!;
-      jwt.verify(token, tokenSecret, (err, decoded: TokenDto) => {
-        if (err) {
-          if (err.name === 'TokenExpiredError') {
-            throw new UnauthorizedException('Token has expired');
+      jwt.verify(
+        token,
+        tokenSecret,
+        (err: VerifyErrors | null, decoded: TokenDto) => {
+          if (err) {
+            if (err.name === 'TokenExpiredError') {
+              throw new UnauthorizedException('Token has expired');
+            }
+            reject(new UnauthorizedException(err));
           }
-          reject(new UnauthorizedException(err));
-        }
-        resolve(decoded);
-      });
+          resolve(decoded);
+        },
+      );
     });
   }
 
@@ -55,9 +60,9 @@ export class TokenService {
   }
 
   /** function that abstract generation of jwt */
-  public async generateTokens(user: User): Promise<{
-    authorizationToken: string;
-  }> {
+  public async generateTokens(
+    user: User,
+  ): Promise<{ authorizationToken: string }> {
     // generate jwt
     const authorizationToken = await this.tokenize({
       data: {
@@ -65,7 +70,7 @@ export class TokenService {
         accountStatus: user.accountStatus!,
         id: user.id!,
       },
-      expiresIn: this.config.get(EnvConfiguration.JWT_LIFESPAN),
+      expiresIn: this.config.get<number>(EnvConfiguration.JWT_LIFESPAN)!,
     });
 
     return { authorizationToken };

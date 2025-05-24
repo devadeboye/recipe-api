@@ -82,6 +82,8 @@ export class RecipeController {
     @Query(new JoiObjectValidationPipe(recipeSearchValidator))
     payload: RecipeSearchDto,
   ): Promise<SearchResult<RecipeDocument[]>> {
+    const foo = this.configService.get(EnvConfiguration.SPOONACULAR_BASE_URL)!;
+    Logger.debug(foo, 'Spoonacular Base URL');
     return this.recipeService.search(payload);
   }
 

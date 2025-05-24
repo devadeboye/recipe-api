@@ -1,0 +1,8 @@
+node_modules/
+.git/
+.vscode/
+.husky/
+.env
+secrets/
+deploy.sh
+create-secrets-local.sh

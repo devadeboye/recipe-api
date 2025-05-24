@@ -18,7 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky"
+    "prepare": "husky",
+    "compose:deploy": "docker stack deploy -c docker-compose.swarm.yml recipe-stack",
+    "compose:undeploy": "docker stack rm recipe-stack",
+    "docker:build": "docker build -t recipe-app:686866 ."
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.3",
